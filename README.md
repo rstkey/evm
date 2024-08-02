@@ -4,22 +4,11 @@
 
 ![splash preview](./splash.png?raw=true)
 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/acuarica/evm/main.yml?style=flat-square)](https://github.com/acuarica/evm/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/acuarica/evm/graph/badge.svg?token=CHCTT3ABLL)](https://codecov.io/gh/acuarica/evm)
-[![npm](https://img.shields.io/npm/v/sevm?style=flat-square)](https://www.npmjs.com/package/sevm)
-![npm](https://img.shields.io/npm/dt/sevm?style=flat-square)
-[![GitHub](https://img.shields.io/github/license/acuarica/evm?style=flat-square)](https://github.com/acuarica/evm/blob/main/LICENSE)
-[![install size](https://packagephobia.com/badge?p=sevm)](https://packagephobia.com/result?p=sevm)
-[![Demo](https://img.shields.io/badge/demo-acuarica.github.io%2Fevm-informational?style=flat-square)](https://acuarica.github.io/evm)
-
 A Symbolic [Ethereum Virtual Machine (EVM)](https://medium.com/mycrypto/the-ethereum-virtual-machine-how-does-it-work-9abac2b7c9e) interpreter and decompiler, along with several other utils for programmatically extracting information from bytecode.
-
-> [!NOTE]
-> Forked from [MrLuit/evm](https://github.com/MrLuit/evm). For more info, see [Detached Fork](#detached-fork).
 
 ## Features
 
-> :construction: Under heavy development. Feel free to open an [issue](https://github.com/acuarica/evm/issues) if something is not right. :construction:
+> :construction: Under heavy development. Feel free to open an [issue](https://github.com/rust-solman/evm/issues) if something is not right. :construction:
 
 - **Lightweight with no dependencies, ~65 kB minified ~17 kB minified & brotlied**
 - [**Embedded functions and events signature database**](#evm-bytecode-function-and-event-signature-hashes) <small style="background: #f000b8; padding: 0.2em; border-radius: 3px">optional</small>
@@ -101,18 +90,6 @@ console.log(contract.solidify());
 ```
 
 <!-- tabs:end -->
-
-## API &nbsp;&nbsp; [![TypeDoc](https://img.shields.io/badge/full%20reference-acuarica.github.io%2Fevm%2Ftsdoc-blueviolet?style=flat-square)](https://acuarica.github.io/evm/tsdoc)
-
-### Main Methods and Properties
-
-- [**`bytecode`**](https://acuarica.github.io/evm/tsdoc/classes/index.Contract.html#bytecode) - Get raw bytecode (not really useful; same as input)
-- [**`metadata`**](https://acuarica.github.io/evm/tsdoc/classes/index.Contract.html#metadata) - Get [IPFS](https://docs.ipfs.tech/concepts/content-addressing/#cid-versions) or [Swarm](https://github.com/ethereum/wiki/wiki/Swarm-Hash) hash (if present) for [contract metadata](https://docs.soliditylang.org/en/latest/metadata.html)
-- [**`opcodes`**](https://acuarica.github.io/evm/tsdoc/classes/index.Contract.html#opcodes) - Returns opcodes reachable within bytecode
-- [**`getFunctions()`**](https://acuarica.github.io/evm/tsdoc/classes/index.Contract.html#getFunctions) - Parse functions from their signatures in bytecode
-- [**`getEvents()`**](https://acuarica.github.io/evm/tsdoc/classes/index.Contract.html#decompile) - Parse events from their signatures in bytecode
-- [**`solidify()`**](https://acuarica.github.io/evm/tsdoc/classes/index.Contract.html#solidify) - Decompile bytecode into readable [Solidity](https://soliditylang.org/)-like pseudocode
-- [**`isERC(ercid)`**](https://acuarica.github.io/evm/tsdoc/classes/index.Contract.html#isERC) - Detect whether contract is ERC id compliant
 
 ## Usage
 
@@ -497,10 +474,6 @@ Run tests with coverage with
 yarn coverage
 ```
 
-Coverage reports are uploaded to Codecov
-
-[![codecov Sunburst](https://codecov.io/gh/acuarica/evm/graphs/sunburst.svg?token=CHCTT3ABLL)](https://codecov.io/gh/acuarica/evm)
-
 ### [`types`](./types/)
 
 This folder contains _vendor_ types to refine or declare types of libraries.
@@ -526,14 +499,14 @@ Moreover, their output is recorded into [`test/__snapshots__/examples.snap.md`](
 
 ### [`.dataset`](./.dataset/)
 
-This folder contains a [dataset](https://github.com/acuarica/contract-dataset) of contract bytecodes deployed in a public network.
+This folder contains a dataset of contract bytecodes deployed in a public network.
 
 It is attached as a Git submodule.
 To check out the `.dataset` folder, `clone` this repo using the [`--recursive` option](https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---recurse-submodulesltpathspecgt),
 which clones the repo and the `.dataset` submodule all at once.
 
 ```console
-git clone --recursive https://github.com/acuarica/evm.git
+git clone --recursive https://github.com/rust-solman/evm.git
 ```
 
 Alternatively, if you have already cloned the repo, run the following to check out the `.dataset` folder
@@ -544,20 +517,3 @@ git submodule update --init
 
 The contract bytecodes dataset is used in [`test/dataset.test.ts`](#datasettestts), which loads every contract bytecode and runs the Solidity and Yul decompilation.
 This ensures that the analysis works on _real_ contracts and that is does not enter into an infinite loop while interpreting a bytecode cycle.
-
-## Detached Fork
-
-This GitHub repo was originally a fork of <https://github.com/MrLuit/evm>.
-It served as a great starting point for this project.
-The fact that it is lightweight and written in TypeScript,
-make it ideal for embedding in other applications.
-
-However, as we started to support and decompile newer contracts, we realize it was quite outdated.
-Besides not being able to process newer smart contracts, for some, the bytecode analysis algorithm did not terminate.
-That's the reason we forked that repo.
-
-We did a major overhaul of the codebase, adding new features, refactoring the whole project and adding both testing and documentation.
-As we added changes, we realized it did not make sense to keep it a forked repo.
-Moreover, when sending new PRs, the default `base` repo is the upstream repo, which is not what we want in our case.
-This behavior is both error prone and annoying.
-That's why, as of _Apr 17, 2023_, this project is no longer a fork of [MrLuit/evm](https://github.com/MrLuit/evm).
